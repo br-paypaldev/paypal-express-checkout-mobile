@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	creationComplete="init()"
+	title="Compra cancelada">
+	
+	<fx:Script>
+	<![CDATA[
+		import flash.utils.setTimeout;
+		import flash.utils.clearTimeout;
+		
+		private function init() :void {
+			var timer :uint = setTimeout( function() :void {
+				clearTimeout( timer );
+				
+				navigator.popToFirstView();
+			} , 5000 );
+		}
+	]]>
+	</fx:Script>
+
+	<s:VGroup
+		width="100%"
+		height="100%"
+		horizontalAlign="center"
+		verticalAlign="middle">
+
+		<s:Label text="Sua compra não foi concluída." />
+		<s:Label text="Você será direcionado à página princial em 5 segundos." />
+	</s:VGroup>
+</s:View>

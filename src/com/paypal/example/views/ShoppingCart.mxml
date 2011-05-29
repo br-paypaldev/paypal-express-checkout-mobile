@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	title="Meu Carrinho">
+	
+	<fx:Script>
+	<![CDATA[
+		import com.paypal.example.Application;
+		import com.paypal.example.Cart;
+		
+		[Bindable]
+		private var cart :Cart = Application.instance().cart();
+		
+		[Bindable]
+		private var products :XML = cart.getItems();
+		
+		private function checkout() :void {
+			checkoutButton.enabled = false;
+			
+			cart.addEventListener( "SUCCESS" , function() :void {
+				checkoutButton.enabled = true;
+				navigator.pushView( com.paypal.example.views.PayPalCheckout , cart.token );
+				cart.clean();
+			} );
+			
+			cart.addEventListener( "OPZ" , function() :void {
+				checkoutButton.enabled = true;
+			} );
+			
+			cart.checkout();
+		}
+		
+		private function clean() :void {
+			cart.clean();
+			navigator.popToFirstView();
+		}
+	]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<mx:CurrencyFormatter
+			id="currencyFormatter"
+			currencySymbol="R$"
+			precision="2"
+			decimalSeparatorFrom=","
+			decimalSeparatorTo=","
+			useNegativeSign="true"
+			useThousandsSeparator="false"
+			alignSymbol="left" />
+	</fx:Declarations>
+
+	<s:VGroup
+		width="100%"
+		height="100%"
+		paddingBottom="20"
+		paddingTop="10"
+		horizontalAlign="center"
+		verticalAlign="top">
+		
+		<s:List
+			id="list"
+			itemRenderer="com.paypal.example.renderers.CartItemRenderer"
+			width="100%"
+			height="100%"
+			borderVisible="false"
+			selectedIndex="0"
+			enabled="true"
+			contentBackgroundColor="0xFFFFFF">
+
+			<s:dataProvider>
+				<s:XMLListCollection source="{products.children()}" />
+			</s:dataProvider>
+		</s:List>
+		
+		<s:HGroup
+			right="10"
+			height="40"
+			verticalAlign="middle">
+			
+			<s:Label text="TOTAL:" />
+			<s:Label
+				text="{currencyFormatter.format(cart.total)}"
+				fontWeight="bold"
+				color="0x333333" />
+		</s:HGroup>
+		
+		
+		<s:HGroup
+			width="100%"
+			horizontalAlign="center"
+			verticalAlign="middle">
+			
+			<s:Button
+				chromeColor="0xFF3333"
+				color="0xFFFFFF"
+				click="clean()"
+				label="Limpar" />
+				
+			<s:Button
+				id="checkoutButton"
+				click="checkout()"
+				skinClass="com.paypal.mobile.CheckoutButton"
+				label="Fazer Checkout com" />
+		</s:HGroup>
+	</s:VGroup>
+</s:View>

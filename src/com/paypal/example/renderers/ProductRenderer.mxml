@@ -1,0 +1,27 @@
+<s:ItemRenderer
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	autoDrawBackground="false"
+	creationComplete="init()"
+	width="100%"
+	height="100%">
+	
+	<fx:Script>
+	<![CDATA[
+		import com.paypal.example.Application;
+		
+		private var application :Application = Application.instance();
+		
+		private function init() :void {
+			application.loadImage( data.img.@src.toString() , image );
+		}
+	]]>
+	</fx:Script>
+
+	<s:BitmapImage
+		id="image"
+		source="img/app/loader_450x400.gif"
+		width="450"
+		height="400" />
+</s:ItemRenderer>

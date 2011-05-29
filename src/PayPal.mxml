@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	firstView="com.paypal.example.views.Home"
+	splashScreenImage="@Embed('/src/paypal/bin/img/app/splash.png')">
+	
+	<s:navigationContent>
+		<s:Button click="navigator.popToFirstView()" icon="@Embed('/src/paypal/bin/img/app/paypal-icon_48x48.png')" />
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:Button click="navigator.pushView(com.paypal.example.views.ShoppingCart)" icon="@Embed('/src/paypal/bin/img/app/cart.png')" />
+	</s:actionContent>
+</s:ViewNavigatorApplication>

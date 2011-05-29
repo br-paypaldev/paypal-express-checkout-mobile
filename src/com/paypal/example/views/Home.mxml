@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	title="Produtos">
+	
+	<fx:Script>
+	<![CDATA[
+		import spark.components.DataGroup;
+		import com.paypal.example.Application;
+		import com.paypal.example.Cart;
+		
+		private var application :Application = Application.instance();
+		
+		private var cart :Cart = application.cart();
+
+		private function buyNow() :void {
+			checkoutButton.enabled = false;
+			
+			cart.addEventListener( "SUCCESS" , function() :void {
+				checkoutButton.enabled = true;
+				navigator.pushView( com.paypal.example.views.PayPalCheckout , cart.token );
+				cart.clean();
+			} );
+			
+			cart.addEventListener( "OPZ" , function() :void {
+				checkoutButton.enabled = true;
+			} );
+			
+			cart.buyNow( list.selectedItem )
+		}
+		
+		private function scrollList() :void {
+			var index :int = list.selectedIndex;
+
+			if ( ( index != -1 ) && ( list.layout != null ) ) {
+				var target :DataGroup = list.dataGroup;
+				var spDelta:Point = target.layout.getScrollPositionDeltaToElement( index );
+				
+				if ( ( spDelta != null ) && ( spDelta.x != 0 ) ) {
+					pth.valueBy = spDelta.x;
+					animation.play();
+				}
+			}
+		}
+	]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<mx:CurrencyFormatter
+			id="currencyFormatter"
+			currencySymbol="R$"
+			precision="2"
+			decimalSeparatorFrom=","
+			decimalSeparatorTo=","
+			useNegativeSign="true"
+			useThousandsSeparator="false"
+			alignSymbol="left" />
+
+		<s:Animate id="animation" target="{listLayout}" duration="100">
+			<s:motionPaths>
+				<s:SimpleMotionPath id="pth" property="horizontalScrollPosition" />
+			</s:motionPaths>
+		</s:Animate>
+		
+		<fx:XML id="products" source="http://improjetos.com.br/paypal/products.xml" />
+	</fx:Declarations>
+	
+	<s:VGroup
+		width="100%"
+		height="100%"
+		horizontalAlign="center">
+		
+		<s:List
+			id="list"
+			itemRenderer="com.paypal.example.renderers.ProductRenderer"
+			top="0"
+			left="0"
+			width="100%"
+			height="400"
+			dragMoveEnabled="true"
+			borderVisible="false"
+			selectedIndex="0"
+			enabled="true"
+			change="scrollList()"
+			contentBackgroundColor="0xFFFFFF">
+
+			<s:layout>
+				<s:HorizontalLayout
+					id="listLayout"
+					gap="0"
+					paddingLeft="0"
+					paddingRight="0"
+					paddingTop="0"
+					paddingBottom="0"
+					verticalAlign="top" />
+			</s:layout>
+
+			<s:dataProvider>
+				<s:XMLListCollection source="{products.children()}" />
+			</s:dataProvider>
+		</s:List>
+		
+		<s:Label
+			text="{list.selectedItem.name}"
+			fontSize="30"
+			fontWeight="bold"
+			color="0x013262" />
+		
+		<s:HGroup
+			width="100%"
+			paddingTop="10"
+			horizontalAlign="center">
+			
+			<s:Button
+				chromeColor="0x013262"
+				color="0xFFFFFF"
+				click="navigator.pushView( com.paypal.example.views.ProductDetails , list.selectedItem );"
+				enabled="{list.selectedItem != null}"
+				label="Visualizar" />
+				
+			<s:Button
+				chromeColor="0x013262"
+				color="0x33FF33"
+				click="application.cart().add( list.selectedItem )"
+				enabled="{list.selectedItem != null}"
+				label="Adicionar" />
+		</s:HGroup>
+
+		<s:Button
+			id="checkoutButton"
+			skinClass="com.paypal.mobile.CheckoutButton"
+			enabled="{list.selectedItem != null}"
+			click="buyNow()"
+			label="Comprar Agora" />
+	</s:VGroup>
+</s:View>

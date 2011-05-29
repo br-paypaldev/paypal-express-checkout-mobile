@@ -1,0 +1,74 @@
+<s:ItemRenderer
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	autoDrawBackground="true"
+	creationComplete="init()"
+	width="100%"
+	height="153">
+	
+	<fx:Script>
+	<![CDATA[
+		import com.paypal.example.Application;
+		
+		private var application :Application = Application.instance();
+		
+		private function init() :void {
+			application.loadImage( data.img.@src.toString() , image );
+		}
+	]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<mx:CurrencyFormatter
+			id="currencyFormatter"
+			currencySymbol="R$"
+			precision="2"
+			decimalSeparatorFrom=","
+			decimalSeparatorTo=","
+			useNegativeSign="true"
+			useThousandsSeparator="false"
+			alignSymbol="left" />
+	</fx:Declarations>
+	
+	<s:HGroup
+		width="100%"
+		height="153"
+		paddingLeft="10"
+		verticalAlign="middle">
+
+		<s:BitmapImage
+			id="image"
+			source="img/app/loader_150x133.gif"
+			width="150"
+			height="133" />
+		
+		<s:VGroup
+			width="60%"
+			height="133">
+			
+			<s:Label
+				text="{data.name}" />
+			
+			<s:TextArea
+				width="100%"
+				height="113"
+				editable="false"
+				borderVisible="false"
+				contentBackgroundAlpha="0"
+				text="{data.description}" />
+		</s:VGroup>
+			
+		<s:VGroup
+			width="40%"
+			height="133"
+			horizontalAlign="center"
+			verticalAlign="middle">
+			
+			<s:Label
+				text="{currencyFormatter.format(data.price)}"
+				fontWeight="bold"
+				fontSize="20" />
+		</s:VGroup>
+	</s:HGroup>
+</s:ItemRenderer>

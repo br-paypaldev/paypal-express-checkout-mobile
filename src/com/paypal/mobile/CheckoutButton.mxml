@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	alpha.disabled="0.6">
+
+	<fx:Metadata>
+		<![CDATA[[HostComponent("spark.components.Button")]]]>
+	</fx:Metadata>
+
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+
+	<s:Group width="100%" height="100%">
+		<s:Rect
+			height="100%"
+			width="100%"
+			radiusX="6"
+			top="0"
+			right="0"
+			bottom="0"
+			left="0">
+
+			<s:fill>
+				<s:SolidColor color="0xC88038" />
+			</s:fill>
+		</s:Rect>
+		
+		<s:Rect
+			height="100%"
+			width="100%"
+			radiusX="5"
+			top="1"
+			right="1"
+			bottom="1"
+			left="1">
+			
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xFED991" color.down="0xF9AC20" />
+					<s:GradientEntry color="0xF9AC20" color.down="0xFED991" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<s:HGroup
+			width="100%"
+			height="100%"
+			verticalAlign="middle"
+			horizontalAlign="center"
+			paddingLeft="10"
+			paddingRight="10"
+			paddingTop="10"
+			paddingBottom="10">
+			
+			<s:Label
+				id="labelDisplay"
+				text="CHECK OUT with"
+				verticalAlign="middle"
+				color="0x1B3664" />
+				
+			<s:Image source="@Embed('paypal.gif')" />
+		</s:HGroup>
+	</s:Group>
+</s:SparkSkin>
